@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>New Order</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+            <p:layout fullPage="true">
+
+
+
+
+                <p:layoutUnit position="north" size="40" resizable="true" closable="true" collapsible="true" >
+                    
+                    <h:form>
+                        <h:commandLink style="margin-left: 96%" value ="logout" action ="#{userView.logout()}"  rendered="#{userView.isLoggedIn()}"/>
+
+                    </h:form>
+                    
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="west" size="175" header="Left" collapsible="true">
+                    <p:menu>
+                        <p:submenu label="menu">
+                            <p:menuitem value="view order" url="http://localhost:8080/PurchaseSystem/faces/viewOrders.xhtml" />
+
+
+
+                        </p:submenu>
+
+                    </p:menu>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <h:form id="form">
+                        <p:growl id="msgs" />
+
+                        <p:panel header="Create a new item" style="margin-bottom:20px">
+                            <h:panelGrid columns="2" cellpadding="5">
+
+
+
+                                <h:form>
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="1" columnClasses="label, value">
+
+
+                                        <p:outputLabel for="productIn" value="Product" />
+                                        <p:autoComplete id="productIn" required="true" forceSelection="true" value="#{collectorView.item.product}" completeMethod="#{autoCompleteProducts.completeTheme}" />
+                                    </h:panelGrid>
+                                </h:form>
+
+                                <br/>
+                                <h:outputLabel value="Quantity : *" for="quantityIn"></h:outputLabel>
+                                <p:inputText id="quantityIn" value="#{collectorView.item.quantity}" required="true"/>
+
+                                <p:outputLabel value="supplier: " for="themePojo" />
+                                <p:autoComplete id="themePojo" required="true" forceSelection="true" value="#{collectorView.item.supplier}" completeMethod="#{autoComplete.completeTheme}" />
+
+                                <p:commandButton id="btn_reset" value="Reset" type="reset"/>
+                                <p:commandButton id="btn_add" value="Add" update="items msgs @parent" action="#{collectorView.reinit}" >
+                                    <p:collector value="#{collectorView.item}" addTo="#{collectorView.items}" unique="false"/>
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </p:panel>
+
+                        <p:outputPanel id="items">
+                            <p:dataTable value="#{collectorView.items}" var="item" id="itemsTable">
+
+                                <p:column headerText="Product">
+                                    <h:outputText value="#{item.product}" />
+                                </p:column>
+
+                                <p:column headerText="Quantity">
+                                    <h:outputText value="#{item.quantity}" />
+                                </p:column>
+
+                                <p:column headerText="Supplier">
+                                    <h:outputText value="#{item.supplier}" />
+                                </p:column>
+
+                                <p:column headerText="Action">
+                                    <p:commandLink value="Remove" update=":form:items" process=":form:items">
+                                        <p:collector value="#{item}" removeFrom="#{collectorView.items}" unique="true"/>
+                                    </p:commandLink>
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:outputPanel>
+                    </h:form>
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                    <h:form>
+                        <h:commandLink value ="submit" action="#{collectorView.submitAction()}">
+                            <f:param name="submitBtn" value="#{userView.userId}" />
+                        </h:commandLink>
+                        <br/> 
+                        <h:commandLink value= "view orders" action="#{viewOrdersController.viewOrdersLink}" >
+                            <f:param name="userID" value ="#{userView.userId}" />
+                        </h:commandLink>
+                    </h:form>
+                    <!--Footer + Date--> 
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>
+

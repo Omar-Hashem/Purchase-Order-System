@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>PrimeFaces</title>
+            </f:facet>
+        </h:head>
+        
+        <h:body>
+
+            <p:layout fullPage="true">
+                
+
+               <p:layoutUnit position="north" size="40" resizable="true" closable="true" collapsible="true" >
+                    
+                    <h:form>
+                        <h:commandLink style="margin-left: 96%" value ="logout" action ="#{userView.logout()}"  rendered="#{userView.isLoggedIn()}"/>
+
+                    </h:form>
+                    
+                </p:layoutUnit>
+                <p:layoutUnit position="west" size="175" header="Left" collapsible="true">
+                    <p:menu>
+                        <p:submenu label="menu">
+                            
+                            <p:menuitem value="new Order" url="http://localhost:8080/PurchaseSystem/faces/newOrder.xhtml" />
+                           
+
+                        </p:submenu>
+
+                    </p:menu>
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="center" size="175" header="View Orders" collapsible="false">
+                    <h:form>
+                        #{viewOrdersController.userID}
+                        <p:accordionPanel value="#{viewOrdersController.orders}" var="order">
+                            
+                            <p:tab title="Order - #{order.oId} - #{order.date.toString()}">
+                                <p:dataTable var="item" value="#{order.items}">
+                                    <p:column headerText="Product">
+                                        <h:outputText value="#{item.product}" />
+                                    </p:column>
+                                    <p:column headerText="Quantity">
+                                        <h:outputText value="#{item.quantity}" />
+                                    </p:column>
+                                    <p:column headerText="Supplier">
+                                        <h:outputText value="#{item.supplier}" />
+                                    </p:column>
+
+
+
+
+                                </p:dataTable>
+                            </p:tab>
+                        </p:accordionPanel>
+                    </h:form>
+                </p:layoutUnit>
+
+
+               
+
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>
+

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Facelet Title</title>
+        <link rel="stylesheet" type="text/css" href="background style.css"></link>
+    </h:head>
+    <div id="header">
+        <h:body >
+
+
+            <p:menubar>
+                <f:facet name="options">
+                    <p:commandButton style="margin-right:15px" type="button" value="sign up" icon="ui-icon-cloud-black" />
+
+
+                </f:facet>
+
+            </p:menubar>
+
+            <h:form id="form">
+
+                <p:panel id="panel" header="login" style="width:400px">
+
+                    <p:messages id="msgs" closable="true" />
+
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <p:outputLabel for="firstname" value="username:" style="color: white ; font-size: x-large ; background-color: blue"  />
+                        <p:inputText   id="firstname" value="#{userView.firstname}"  required="true" label="Firstname">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+                        <p:message for="firstname" display="icon" />
+
+                        <p:outputLabel for="lastname" value="password:" style="color: white ; font-size: x-large ; background-color: blue" />
+                        <p:password id="lastname" value="#{userView.lastname}" label="Lastname" required="true">
+                            <f:validateLength minimum="2" />
+                            <p:ajax update="msgLastname" event="keyup" />
+                        </p:password>
+                        <p:message for="lastname" id="msgLastname" display="icon" />
+
+                    </h:panelGrid>
+
+                    <p:commandButton value="login" update="panel"  icon="ui-icon-check" action="#{userView.onSubmit()}"/>
+                </p:panel>
+            </h:form>
+
+        </h:body>
+    </div>
+</html>
+
